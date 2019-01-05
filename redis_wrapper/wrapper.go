@@ -102,27 +102,41 @@ type setWrapper interface {
 	// SSCAN()
 }
 
+// SortSet item type
+type SortSetItem interface {
+	// used by member
+	GetMember() string
+	// used by member score, the returned value must be int64 or float64
+	GetScore() interface{}
+}
+
 type sortSetWrapper interface {
-	ZADD()
-	ZCARD()
-	ZCOUNT()
-	ZINCRBY()
-	ZRANGE()
-	ZRANGEBYSCORE()
-	ZRANK()
-	ZREM()
-	ZREMRANGEBYRANK()
-	ZREMRANGEBYSCORE()
-	ZREVRANGE()
-	ZREVRANGEBYSCORE()
-	ZREVRANK()
-	ZSCORE()
-	ZUNIONSTORE()
-	ZINTERSTORE()
-	ZSCAN()
-	ZRANGEBYLEX()
-	ZLEXCOUNT()
-	ZREMRANGEBYLEX()
+	// Add one or more members to a sorted set, or update its score if it already exists
+	SortSetAdd(key string, items ...SortSetItem) error
+
+	// Get the number of members in a sorted set
+	SortSetLen(key string) (int, error)
+
+	// Remove one or more members from a sorted set
+	SortSetRemove(key string, names ...string) error
+
+	//ZCOUNT()
+	//ZINCRBY()
+	//ZRANGE()
+	//ZRANGEBYSCORE()
+	//ZRANK()
+	//ZREMRANGEBYRANK()
+	//ZREMRANGEBYSCORE()
+	//ZREVRANGE()
+	//ZREVRANGEBYSCORE()
+	//ZREVRANK()
+	//ZSCORE()
+	//ZUNIONSTORE()
+	//ZINTERSTORE()
+	//ZSCAN()
+	//ZRANGEBYLEX()
+	//ZLEXCOUNT()
+	//ZREMRANGEBYLEX()
 }
 
 type stringWrapper interface {
@@ -171,7 +185,7 @@ type RedisWrapper interface {
 	geoWrapper
 	setWrapper
 	keyWrapper
-	// TODO sortSetWrapper
+	sortSetWrapper
 	// TODO stringWrapper
 	// TODO scriptWrapper
 }
